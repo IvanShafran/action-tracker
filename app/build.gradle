@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "me.shafran.actiontracker"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        vectorDrawables.useSupportLibrary true
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs += 'src/main/kotlin'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    def compatVersion = "27.0.2"
+
+    implementation "com.android.support:appcompat-v7:$compatVersion"
+    implementation "com.android.support:cardview-v7:$compatVersion"
+    implementation "com.android.support:recyclerview-v7:$compatVersion"
+    implementation "com.android.support:design:$compatVersion"
+
+    def moxyVersion = "1.4.6"
+
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
+    implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
+
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    implementation "io.reactivex.rxjava2:rxjava:2.1.4"
+
+    implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
+
+}
