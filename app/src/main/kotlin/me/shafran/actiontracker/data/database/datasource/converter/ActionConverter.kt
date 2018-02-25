@@ -16,12 +16,7 @@ object ActionConverter {
     }
 
     private fun getActionEventListFromDb(dbActionEvents: List<DbActionEvent>): List<ActionEvent> {
-        return dbActionEvents.map { getActionEventFromDb(it) }
-    }
-
-    private fun getActionEventFromDb(dbActionEvent: DbActionEvent): ActionEvent {
-        val trackedDate = CalendarConverter.getCalendarFromLongRepresentation(dbActionEvent.trackedDateSinceEpochTime)
-        return ActionEvent(dbActionEvent.id, trackedDate)
+        return dbActionEvents.map { ActionEventConverter.getActionEventFromDb(it) }
     }
 
 }
