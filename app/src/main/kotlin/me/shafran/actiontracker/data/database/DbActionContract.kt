@@ -24,6 +24,4 @@ object DbActionContract {
         database.execSQL(CREATE_TABLE_QUERY)
     }
 
-    fun
-
 }
