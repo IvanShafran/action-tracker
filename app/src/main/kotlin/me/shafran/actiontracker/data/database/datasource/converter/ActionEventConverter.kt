@@ -3,10 +3,10 @@ package me.shafran.actiontracker.data.database.datasource.converter
 import me.shafran.actiontracker.data.database.DbActionEvent
 import me.shafran.actiontracker.data.entity.ActionEvent
 
-object ActionEventConverter {
+class ActionEventConverter(private val calendarConverter: CalendarConverter) {
 
     fun getActionEventFromDb(dbActionEvent: DbActionEvent): ActionEvent {
-        val trackedDate = CalendarConverter.getCalendarFromLongRepresentation(dbActionEvent.trackedDateSinceEpochTime)
+        val trackedDate = calendarConverter.getCalendarFromLongRepresentation(dbActionEvent.trackedDateSinceEpochTime)
         return ActionEvent(dbActionEvent.id, trackedDate)
     }
 

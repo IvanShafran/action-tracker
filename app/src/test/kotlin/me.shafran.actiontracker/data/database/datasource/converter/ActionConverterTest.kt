@@ -15,10 +15,12 @@ import java.util.Calendar
 
 object ActionConverterTest : Spek({
     describe("action converter") {
+        val converter = ActionConverter(ActionEventConverter(CalendarConverter()))
+
         on("database action without events") {
             val dbAction = DbAction(3L, "Action")
 
-            val action = ActionConverter.getActionFromDb(dbAction, listOf())
+            val action = converter.getActionFromDb(dbAction, listOf())
 
             it("should set correct id") {
                 assertEquals(dbAction.id, action.id)
@@ -40,7 +42,7 @@ object ActionConverterTest : Spek({
                     DbActionEvent(1, 1, 1)
             )
 
-            val action = ActionConverter.getActionFromDb(dbAction, dbEvents)
+            val action = converter.getActionFromDb(dbAction, dbEvents)
 
             val expectedFirstEvent = ActionEvent(
                     0,

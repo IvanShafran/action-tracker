@@ -9,17 +9,20 @@ import org.junit.Assert.assertEquals
 
 object ActionEventConverterTest : Spek({
     describe("action event converter") {
+        val calendarConverter = CalendarConverter()
+        val eventConverter = ActionEventConverter(calendarConverter)
+
         val dbActionEvent = DbActionEvent(
                 id = 1,
                 actionId = 2,
                 trackedDateSinceEpochTime = 0
         )
 
-        val actionEvent = ActionEventConverter.getActionEventFromDb(dbActionEvent)
+        val actionEvent = eventConverter.getActionEventFromDb(dbActionEvent)
 
         val expectedActionEvent = ActionEvent(
                 id = 1,
-                trackedDate = CalendarConverter.getCalendarFromLongRepresentation(0)
+                trackedDate = calendarConverter.getCalendarFromLongRepresentation(0)
         )
 
         it("should set correct id") {

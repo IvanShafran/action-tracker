@@ -3,7 +3,7 @@ package me.shafran.actiontracker.data.database.datasource.converter
 import java.util.Calendar
 
 
-object CalendarConverter {
+class CalendarConverter {
 
     fun getLongRepresentation(calendar: Calendar): Long {
         return calendar.timeInMillis

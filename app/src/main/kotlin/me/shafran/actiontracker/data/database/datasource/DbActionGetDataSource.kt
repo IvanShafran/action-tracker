@@ -8,7 +8,10 @@ import me.shafran.actiontracker.data.database.datasource.converter.ActionConvert
 import me.shafran.actiontracker.data.entity.Action
 import me.shafran.actiontracker.data.repository.ActionGetDataSource
 
-class DbActionGetDataSource(private val databaseHolder: DatabaseHolder) : ActionGetDataSource {
+class DbActionGetDataSource(
+        private val databaseHolder: DatabaseHolder,
+        private val actionConverter: ActionConverter
+) : ActionGetDataSource {
 
     override fun getAction(actionId: Long): Action {
         databaseHolder.withDatabase { database ->
@@ -20,7 +23,7 @@ class DbActionGetDataSource(private val databaseHolder: DatabaseHolder) : Action
         val dbAction = getDbAction(database, actionId)
         val dbActionEvents = getDbActionEvents(database, actionId)
 
-        return ActionConverter.getActionFromDb(dbAction, dbActionEvents)
+        return actionConverter.getActionFromDb(dbAction, dbActionEvents)
     }
 
     private fun getDbAction(database: SQLiteDatabase, actionId: Long): DbAction {
@@ -70,7 +73,7 @@ class DbActionGetDataSource(private val databaseHolder: DatabaseHolder) : Action
         for (dbAction in dbActions) {
             val dbActionEvents = getDbActionEvents(database, dbAction.id)
 
-            actions.add(ActionConverter.getActionFromDb(dbAction, dbActionEvents))
+            actions.add(actionConverter.getActionFromDb(dbAction, dbActionEvents))
         }
 
         return actions

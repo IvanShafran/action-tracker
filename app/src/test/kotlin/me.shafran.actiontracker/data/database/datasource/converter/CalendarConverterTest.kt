@@ -9,11 +9,12 @@ import java.util.Calendar
 
 object CalendarConverterTest : Spek({
     describe("calendar converter") {
+        val calendarConverter = CalendarConverter()
 
         on("converting from long representation to calendar and back") {
             val longRepresentation = 1323223898L
-            val returnedLonRepresentation = CalendarConverter.getLongRepresentation(
-                    CalendarConverter.getCalendarFromLongRepresentation(longRepresentation)
+            val returnedLonRepresentation = calendarConverter.getLongRepresentation(
+                    calendarConverter.getCalendarFromLongRepresentation(longRepresentation)
             )
 
             it("should return the same long") {
@@ -23,8 +24,8 @@ object CalendarConverterTest : Spek({
 
         on("converting from calendar to long representation and back") {
             val calendar = Calendar.getInstance().apply { timeInMillis = 3723832238L }
-            val returnedCalendar = CalendarConverter.getCalendarFromLongRepresentation(
-                    CalendarConverter.getLongRepresentation(calendar)
+            val returnedCalendar = calendarConverter.getCalendarFromLongRepresentation(
+                    calendarConverter.getLongRepresentation(calendar)
             )
 
             it("should return the same long") {

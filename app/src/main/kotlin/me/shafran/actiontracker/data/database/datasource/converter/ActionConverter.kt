@@ -5,7 +5,7 @@ import me.shafran.actiontracker.data.database.DbActionEvent
 import me.shafran.actiontracker.data.entity.Action
 import me.shafran.actiontracker.data.entity.ActionEvent
 
-object ActionConverter {
+class ActionConverter(private val actionEventConverter: ActionEventConverter) {
 
     fun getActionFromDb(dbAction: DbAction, dbActionEvents: List<DbActionEvent>): Action {
         return Action(
@@ -16,7 +16,7 @@ object ActionConverter {
     }
 
     private fun getActionEventListFromDb(dbActionEvents: List<DbActionEvent>): List<ActionEvent> {
-        return dbActionEvents.map { ActionEventConverter.getActionEventFromDb(it) }
+        return dbActionEvents.map { actionEventConverter.getActionEventFromDb(it) }
     }
 
 }

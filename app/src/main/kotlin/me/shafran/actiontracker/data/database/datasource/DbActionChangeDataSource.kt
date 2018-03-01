@@ -13,7 +13,10 @@ import me.shafran.actiontracker.data.repository.ActionChangeDataSource.InsertAct
 import me.shafran.actiontracker.data.repository.ActionChangeDataSource.InsertActionParams
 import me.shafran.actiontracker.data.repository.ActionChangeDataSource.UpdateActionParams
 
-class DbActionChangeDataSource(private val databaseHolder: DatabaseHolder) : ActionChangeDataSource {
+class DbActionChangeDataSource(
+        private val databaseHolder: DatabaseHolder,
+        private val calendarConverter: CalendarConverter
+) : ActionChangeDataSource {
 
     override fun insertAction(insertActionParams: InsertActionParams) {
         databaseHolder.withDatabase { database ->
@@ -48,7 +51,7 @@ class DbActionChangeDataSource(private val databaseHolder: DatabaseHolder) : Act
         val contentValues = ContentValues()
         contentValues.put(DbActionEventContract.Columns.ACTION_ID, insertActionEventParams.actionId)
 
-        val calendarLonRepresentation = CalendarConverter.getLongRepresentation(insertActionEventParams.trackedDate)
+        val calendarLonRepresentation = calendarConverter.getLongRepresentation(insertActionEventParams.trackedDate)
         contentValues.put(DbActionEventContract.Columns.TRACKED_DATE, calendarLonRepresentation)
         return contentValues
     }
