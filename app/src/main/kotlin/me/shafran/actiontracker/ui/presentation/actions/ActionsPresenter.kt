@@ -19,4 +19,9 @@ class ActionsPresenter(
                     viewState.showActions(actions)
                 }
     }
+
+    fun onCreateActionClick() {
+
+    }
+
 }

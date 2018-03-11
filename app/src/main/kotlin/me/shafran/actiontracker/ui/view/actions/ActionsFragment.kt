@@ -44,6 +44,8 @@ class ActionsFragment : BaseFragment(), ActionsView {
             layoutManager = LinearLayoutManager(context)
             adapter = actionsAdapter
         }
+
+        createActionButton.setOnClickListener { actionsPresenter.onCreateActionClick() }
     }
 
     override fun showActions(actions: List<Action>) {
