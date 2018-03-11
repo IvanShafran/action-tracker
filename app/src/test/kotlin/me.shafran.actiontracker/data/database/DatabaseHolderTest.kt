@@ -1,9 +1,7 @@
-package me.shafran.actiontracker.data.database.datasource.converter
+package me.shafran.actiontracker.data.database
 
 import android.database.sqlite.SQLiteDatabase
 import me.shafran.actiontracker.assertFailsWith
-import me.shafran.actiontracker.data.database.ActionTrackerDbHelper
-import me.shafran.actiontracker.data.database.DatabaseHolderImpl
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
