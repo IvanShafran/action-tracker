@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.shafran.actiontracker.R
 import me.shafran.actiontracker.ui.presentation.main.MainPresenter
 import me.shafran.actiontracker.ui.presentation.main.MainView
+import me.shafran.actiontracker.ui.view.actions.ActionsFragment
 import me.shafran.actiontracker.ui.view.base.BaseActivity
 
 class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +29,11 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.main_content, ActionsFragment())
+                .commit()
     }
 
     override fun onBackPressed() {
