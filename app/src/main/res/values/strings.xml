@@ -6,4 +6,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="lorem_ipsum_short" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut luctus lorem id mauris gravida, eget feugiat enim efficitur.</string>
+
+    <string name="create_action_title">Create action</string>
+    <string name="create_action_positive_button">Create</string>
+    <string name="create_action_negative_button">Cancel</string>
+    <string name="create_action_hint">Action name</string>
 </resources>
