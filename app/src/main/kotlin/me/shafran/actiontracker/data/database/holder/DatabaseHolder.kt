@@ -1,4 +1,4 @@
-package me.shafran.actiontracker.data.database
+package me.shafran.actiontracker.data.database.holder
 
 import android.database.sqlite.SQLiteDatabase
 
@@ -7,7 +7,6 @@ interface DatabaseHolder {
     fun openDatabase(): SQLiteDatabase
 
     fun closeDatabase()
-
 }
 
 inline fun <T> DatabaseHolder.withDatabase(action: (database: SQLiteDatabase) -> T): T {

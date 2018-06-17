@@ -1,4 +1,4 @@
-package me.shafran.actiontracker.data.database.datasource.converter
+package me.shafran.actiontracker.data.database.converter
 
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -9,12 +9,10 @@ import java.util.Calendar
 
 object CalendarConverterTest : Spek({
     describe("calendar converter") {
-        val calendarConverter = CalendarConverter()
-
         on("converting from long representation to calendar and back") {
             val longRepresentation = 1323223898L
-            val returnedLonRepresentation = calendarConverter.getLongRepresentation(
-                    calendarConverter.getCalendarFromLongRepresentation(longRepresentation)
+            val returnedLonRepresentation = CalendarConverter.getLongRepresentation(
+                    CalendarConverter.getCalendarFromLongRepresentation(longRepresentation)
             )
 
             it("should return the same long") {
@@ -24,8 +22,8 @@ object CalendarConverterTest : Spek({
 
         on("converting from calendar to long representation and back") {
             val calendar = Calendar.getInstance().apply { timeInMillis = 3723832238L }
-            val returnedCalendar = calendarConverter.getCalendarFromLongRepresentation(
-                    calendarConverter.getLongRepresentation(calendar)
+            val returnedCalendar = CalendarConverter.getCalendarFromLongRepresentation(
+                    CalendarConverter.getLongRepresentation(calendar)
             )
 
             it("should return the same long") {

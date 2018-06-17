@@ -2,24 +2,34 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-android-extensions'
 
 // junit5 doesn't support android projects out of the box
 apply plugin: "de.mannodermaus.android-junit5"
 
 android {
-    compileSdkVersion 27
     defaultConfig {
         applicationId "me.shafran.actiontracker"
         minSdkVersion 16
+        compileSdkVersion 27
         targetSdkVersion 27
         buildToolsVersion "27.0.3"
         versionCode 1
         versionName "1.0"
 
         vectorDrawables.useSupportLibrary true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [toothpick_registry_package_name: "me.shafran.actiontracker"]
+            }
+        }
     }
+
     buildTypes {
+
         debug {
             minifyEnabled false
         }
@@ -73,6 +83,9 @@ dependencies {
 
     implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
 
+    def toothpickVersion = "1.1.3"
+    implementation "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpickVersion"
+    kapt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpickVersion"
 }
 
 // Spek setup

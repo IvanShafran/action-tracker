@@ -24,5 +24,4 @@ class MainActivity : BaseActivity(), MainView {
                 .replace(R.id.main_content, ActionsFragment())
                 .commit()
     }
-
 }

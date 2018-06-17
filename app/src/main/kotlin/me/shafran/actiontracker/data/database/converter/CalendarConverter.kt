@@ -1,9 +1,8 @@
-package me.shafran.actiontracker.data.database.datasource.converter
+package me.shafran.actiontracker.data.database.converter
 
 import java.util.Calendar
 
-
-class CalendarConverter {
+object CalendarConverter {
 
     fun getLongRepresentation(calendar: Calendar): Long {
         return calendar.timeInMillis
@@ -12,5 +11,4 @@ class CalendarConverter {
     fun getCalendarFromLongRepresentation(longRepresentation: Long): Calendar {
         return Calendar.getInstance().apply { timeInMillis = longRepresentation }
     }
-
 }

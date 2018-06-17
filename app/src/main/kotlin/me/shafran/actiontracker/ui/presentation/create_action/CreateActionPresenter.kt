@@ -7,11 +7,8 @@ import com.arellomobile.mvp.MvpPresenter
 class CreateActionPresenter : MvpPresenter<CreateActionView>() {
 
     fun onCreateButtonClicked(actionName: String) {
-
     }
 
     fun onCancelButtonClicked() {
-
     }
-
 }

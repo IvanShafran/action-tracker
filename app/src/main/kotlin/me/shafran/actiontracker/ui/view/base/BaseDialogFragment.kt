@@ -8,5 +8,4 @@ abstract class BaseDialogFragment : MvpAppCompatDialogFragment() {
     fun getNonNullContextOrThrow(): Context {
         return context ?: throw IllegalStateException("Context is null")
     }
-
 }

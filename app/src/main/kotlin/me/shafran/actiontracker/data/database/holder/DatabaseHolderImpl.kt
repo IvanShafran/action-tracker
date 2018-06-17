@@ -1,11 +1,15 @@
-package me.shafran.actiontracker.data.database
+package me.shafran.actiontracker.data.database.holder
 
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
+import javax.inject.Inject
 import kotlin.concurrent.withLock
 
-class DatabaseHolderImpl(private val actionTrackerDbHelper: ActionTrackerDbHelper) : DatabaseHolder {
+class DatabaseHolderImpl @Inject constructor(
+        private val actionTrackerDbHelper: SQLiteOpenHelper
+) : DatabaseHolder {
 
     private lateinit var sqLiteDatabase: SQLiteDatabase
 

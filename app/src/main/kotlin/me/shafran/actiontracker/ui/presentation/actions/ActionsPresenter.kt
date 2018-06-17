@@ -4,9 +4,10 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import me.shafran.actiontracker.data.repository.ActionRepository
 import me.shafran.actiontracker.rx.RxSchedulers
+import javax.inject.Inject
 
 @InjectViewState
-class ActionsPresenter(
+class ActionsPresenter @Inject constructor(
         private val schedulers: RxSchedulers,
         private val actionRepository: ActionRepository
 ) : MvpPresenter<ActionsView>() {
@@ -21,7 +22,5 @@ class ActionsPresenter(
     }
 
     fun onCreateActionClick() {
-
     }
-
 }
