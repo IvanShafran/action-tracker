@@ -35,9 +35,10 @@ private fun setRegistry() {
 
 private fun openRootScope(context: Context) {
     Toothpick
-            .openScope(DiScopes.ROOT_SCOPE)
+            .openScope(Scopes.ROOT_SCOPE)
             .installModules(
                     RootModule(context),
-                    DataModule()
+                    DataModule(),
+                    NavigationModule()
             )
 }

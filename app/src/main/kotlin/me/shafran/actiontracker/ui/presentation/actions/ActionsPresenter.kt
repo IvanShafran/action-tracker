@@ -3,12 +3,15 @@ package me.shafran.actiontracker.ui.presentation.actions
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import me.shafran.actiontracker.data.repository.ActionRepository
+import me.shafran.actiontracker.navigation.AppRouter
+import me.shafran.actiontracker.navigation.Screens
 import me.shafran.actiontracker.rx.RxSchedulers
 import javax.inject.Inject
 
 @InjectViewState
 class ActionsPresenter @Inject constructor(
         private val schedulers: RxSchedulers,
+        private val router: AppRouter,
         private val actionRepository: ActionRepository
 ) : MvpPresenter<ActionsView>() {
 
@@ -22,5 +25,6 @@ class ActionsPresenter @Inject constructor(
     }
 
     fun onCreateActionClick() {
+        router.navigateTo(Screens.CREATE_ACTION)
     }
 }

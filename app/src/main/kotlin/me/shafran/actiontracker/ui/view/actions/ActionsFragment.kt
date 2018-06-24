@@ -10,7 +10,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.fragment_actions.*
 import me.shafran.actiontracker.R
 import me.shafran.actiontracker.data.entity.Action
-import me.shafran.actiontracker.di.DiScopes
+import me.shafran.actiontracker.di.Scopes
 import me.shafran.actiontracker.ui.presentation.actions.ActionsPresenter
 import me.shafran.actiontracker.ui.presentation.actions.ActionsView
 import me.shafran.actiontracker.ui.view.base.BaseFragment
@@ -26,7 +26,7 @@ class ActionsFragment : BaseFragment(), ActionsView {
     @ProvidePresenter
     fun providePresenter(): ActionsPresenter {
         return Toothpick
-                .openScope(DiScopes.ROOT_SCOPE)
+                .openScope(Scopes.ROOT_SCOPE)
                 .getInstance(ActionsPresenter::class.java)
     }
 
