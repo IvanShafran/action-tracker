@@ -41,6 +41,9 @@ object DbChangeOperations {
 
         val calendarLonRepresentation = CalendarConverter.getLongRepresentation(data.trackedDate)
         contentValues.put(EventContract.Columns.TRACKED_DATE, calendarLonRepresentation)
+
+        contentValues.put(EventContract.Columns.VALUE, data.value)
+
         return contentValues
     }
 
