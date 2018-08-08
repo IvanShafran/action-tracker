@@ -7,7 +7,9 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 // junit5 doesn't support android projects out of the box
-apply plugin: "de.mannodermaus.android-junit5"
+apply plugin: 'de.mannodermaus.android-junit5'
+
+apply from: 'action-tracker-signing.gradle'
 
 android {
     defaultConfig {
@@ -26,6 +28,17 @@ android {
                 arguments = [toothpick_registry_package_name: "me.shafran.actiontracker"]
             }
         }
+
+        resConfig 'en'
+    }
+
+    signingConfigs {
+        release {
+            keyAlias releaseSignKeyAlias
+            keyPassword releaseSignKeyPassword
+            storeFile file(releaseStoreFilePath)
+            storePassword releaseStorePassword
+        }
     }
 
     buildTypes {
@@ -35,7 +48,9 @@ android {
         }
 
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

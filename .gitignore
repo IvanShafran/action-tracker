@@ -6,3 +6,5 @@
 /build
 /captures
 .externalNativeBuild
+action-tracker-keystore.jks
+action-tracker-signing.gradle
