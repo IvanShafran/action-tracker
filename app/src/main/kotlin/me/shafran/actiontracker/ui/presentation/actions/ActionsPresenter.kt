@@ -4,9 +4,11 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import me.shafran.actiontracker.data.entity.Action
 import me.shafran.actiontracker.data.repository.ActionRepository
+import me.shafran.actiontracker.data.repository.datasource.InsertEventData
 import me.shafran.actiontracker.navigation.Screens
 import me.shafran.actiontracker.rx.RxSchedulers
 import ru.terrakok.cicerone.Router
+import java.util.Calendar
 import javax.inject.Inject
 
 @InjectViewState
@@ -33,6 +35,8 @@ class ActionsPresenter @Inject constructor(
     }
 
     fun onCreateEventClick(action: Action) {
-        router.navigateTo(Screens.CREATE_EVENT, action.id)
+        actionRepository
+                .insertEvent(InsertEventData(action.id, 1, Calendar.getInstance()))
+                .subscribe()
     }
 }
