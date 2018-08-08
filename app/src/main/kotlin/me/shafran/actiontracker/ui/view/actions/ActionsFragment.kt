@@ -16,7 +16,7 @@ import me.shafran.actiontracker.ui.presentation.actions.ActionsView
 import me.shafran.actiontracker.ui.view.base.BaseFragment
 import toothpick.Toothpick
 
-class ActionsFragment : BaseFragment(), ActionsView {
+class ActionsFragment : BaseFragment(), ActionsView, ActionsAdapter.Listener {
 
     private val actionsAdapter: ActionsAdapter by lazy { ActionsAdapter() }
 
@@ -43,7 +43,17 @@ class ActionsFragment : BaseFragment(), ActionsView {
             adapter = actionsAdapter
         }
 
+        actionsAdapter.listener = this
+
         createActionButton.setOnClickListener { actionsPresenter.onCreateActionClick() }
+    }
+
+    override fun onCreateEventClick(action: Action) {
+        actionsPresenter.onCreateEventClick(action)
+    }
+
+    override fun onOpenActionClick(action: Action) {
+        actionsPresenter.onOpenActionClick(action)
     }
 
     override fun showActions(actions: List<Action>) {

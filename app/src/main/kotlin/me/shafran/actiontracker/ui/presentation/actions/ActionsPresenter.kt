@@ -2,6 +2,7 @@ package me.shafran.actiontracker.ui.presentation.actions
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import me.shafran.actiontracker.data.entity.Action
 import me.shafran.actiontracker.data.repository.ActionRepository
 import me.shafran.actiontracker.navigation.Screens
 import me.shafran.actiontracker.rx.RxSchedulers
@@ -26,5 +27,12 @@ class ActionsPresenter @Inject constructor(
 
     fun onCreateActionClick() {
         router.navigateTo(Screens.CREATE_ACTION)
+    }
+
+    fun onOpenActionClick(action: Action) {
+    }
+
+    fun onCreateEventClick(action: Action) {
+        router.navigateTo(Screens.CREATE_EVENT, action.id)
     }
 }

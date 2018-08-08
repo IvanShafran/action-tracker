@@ -10,7 +10,7 @@ class ActionsAdapter : RecyclerView.Adapter<ActionViewHolder>(), ActionViewHolde
 
     interface Listener {
 
-        fun onAddActionEventClick(action: Action)
+        fun onCreateEventClick(action: Action)
 
         fun onOpenActionClick(action: Action)
     }
@@ -34,9 +34,9 @@ class ActionsAdapter : RecyclerView.Adapter<ActionViewHolder>(), ActionViewHolde
         holder.bind(actions[position])
     }
 
-    override fun onAddActionEventClick(position: Int) {
+    override fun onCreateEventClick(position: Int) {
         if (position in actions.indices) {
-            listener?.onAddActionEventClick(actions[position])
+            listener?.onCreateEventClick(actions[position])
         }
     }
 

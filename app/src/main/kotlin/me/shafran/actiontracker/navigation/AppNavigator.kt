@@ -5,7 +5,9 @@ import android.content.Intent
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
 import me.shafran.actiontracker.ui.view.create_action.CreateActionDialogFragment
+import me.shafran.actiontracker.ui.view.create_event.CreateEventDialogFragment
 import ru.terrakok.cicerone.android.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Forward
 
@@ -14,22 +16,28 @@ import ru.terrakok.cicerone.commands.Forward
  * Support only forward command for dialogs.
  */
 class AppNavigator(
-        private val activity: FragmentActivity,
+        activity: FragmentActivity,
         containerId: Int
 ) : SupportAppNavigator(activity, containerId) {
 
+    private val fragmentManager: FragmentManager = activity.supportFragmentManager
+
     override fun forward(command: Forward) {
-        var dialogFragment = createDialogFragment(command.screenKey, command.transitionData)
+        val dialogFragment = createDialogFragment(command.screenKey, command.transitionData)
         if (dialogFragment == null) {
             super.forward(command)
         } else {
-            dialogFragment.show(activity.supportFragmentManager, null)
+            dialogFragment.show(fragmentManager, null)
         }
     }
 
     private fun createDialogFragment(screen: String, data: Any?): DialogFragment? {
         return when (screen) {
             Screens.CREATE_ACTION -> CreateActionDialogFragment.newInstance()
+            Screens.CREATE_EVENT -> {
+                val actionId = data as Long
+                CreateEventDialogFragment.newInstance(actionId)
+            }
             else -> null
         }
     }
@@ -39,9 +47,6 @@ class AppNavigator(
     }
 
     override fun createFragment(screenKey: String, data: Any?): Fragment? {
-        return when (screenKey) {
-            Screens.CREATE_ACTION -> CreateActionDialogFragment.newInstance()
-            else -> null
-        }
+        return null
     }
 }

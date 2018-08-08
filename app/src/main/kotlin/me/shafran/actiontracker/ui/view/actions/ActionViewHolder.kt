@@ -15,13 +15,13 @@ class ActionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val addActionEventButton = itemView.findViewById<View>(R.id.addActionEventButton)
 
     init {
-        addActionEventButton.setOnClickListener { listener?.onAddActionEventClick(adapterPosition) }
+        addActionEventButton.setOnClickListener { listener?.onCreateEventClick(adapterPosition) }
         itemView.setOnClickListener { listener?.onOpenActionClick(adapterPosition) }
     }
 
     interface Listener {
 
-        fun onAddActionEventClick(position: Int)
+        fun onCreateEventClick(position: Int)
 
         fun onOpenActionClick(position: Int)
     }
