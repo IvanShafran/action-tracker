@@ -35,7 +35,7 @@ class DbActionDataSource @Inject constructor(
         databaseHolder.withDatabase { database -> DbChangeOperations.deleteEvent(eventId, database) }
     }
 
-    override fun getAction(actionId: Long): Action {
+    override fun getAction(actionId: Long): Action? {
         return databaseHolder.withDatabase { database -> DbGetOperations.getAction(actionId, database) }
     }
 

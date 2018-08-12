@@ -11,9 +11,9 @@ import me.shafran.actiontracker.data.entity.Event
 
 object DbGetOperations {
 
-    fun getAction(actionId: Long, database: SQLiteDatabase): Action {
+    fun getAction(actionId: Long, database: SQLiteDatabase): Action? {
+        val actionDb = getActionFromDb(actionId, database) ?: return null
         val events = getEvents(database, actionId)
-        val actionDb = getActionFromDb(actionId, database)
 
         return getActionWithEvents(actionDb, events)
     }
@@ -34,9 +34,13 @@ object DbGetOperations {
         return Action(action.id, action.name, action.type, events)
     }
 
-    private fun getActionFromDb(actionId: Long, database: SQLiteDatabase): Action {
+    private fun getActionFromDb(actionId: Long, database: SQLiteDatabase): Action? {
         getActionCursor(database, actionId).use { cursor ->
-            return getActionFromDb(cursor)
+            return if (cursor.count == 1) {
+                getActionFromDb(cursor)
+            } else {
+                null
+            }
         }
     }
 

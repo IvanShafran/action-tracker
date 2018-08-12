@@ -2,6 +2,7 @@ package me.shafran.actiontracker.ui.presentation.actions
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import io.reactivex.disposables.Disposable
 import me.shafran.actiontracker.data.entity.Action
 import me.shafran.actiontracker.data.repository.ActionRepository
 import me.shafran.actiontracker.data.repository.datasource.InsertEventData
@@ -18,9 +19,11 @@ class ActionsPresenter @Inject constructor(
         private val actionRepository: ActionRepository
 ) : MvpPresenter<ActionsView>() {
 
+    private var disposable: Disposable? = null
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        actionRepository.getAllActionObservable()
+        disposable = actionRepository.getAllActionObservable()
                 .observeOn(schedulers.ui())
                 .subscribe { actions ->
                     viewState.showActions(actions)
@@ -37,5 +40,10 @@ class ActionsPresenter @Inject constructor(
         actionRepository
                 .getInsertEventSingle(InsertEventData(action.id, 1, Calendar.getInstance()))
                 .subscribe()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 }

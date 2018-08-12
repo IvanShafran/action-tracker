@@ -4,6 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.disposables.Disposable
 import me.shafran.actiontracker.data.entity.Event
+import me.shafran.actiontracker.data.repository.ActionDeletedData
+import me.shafran.actiontracker.data.repository.ActionExistData
 import me.shafran.actiontracker.data.repository.ActionRepository
 import me.shafran.actiontracker.data.repository.datasource.ActionId
 import me.shafran.actiontracker.data.repository.datasource.InsertEventData
@@ -25,10 +27,27 @@ class ActionDetailPresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        actionRepository
+        disposable = actionRepository
                 .getActionObservable(actionId.id)
                 .observeOn(schedulers.ui())
-                .subscribe { viewState.showAction(it) }
+                .subscribe {
+                    when (it) {
+                        is ActionDeletedData -> {
+                            router.exit()
+                        }
+                        is ActionExistData -> viewState.showAction(it.action)
+                    }
+                }
+    }
+
+    fun onDeleteActionClick() {
+        viewState.showConfirmDeleteActionDialog()
+    }
+
+    fun onDeleteActionConfirmedClick() {
+        actionRepository
+                .getDeleteActionCompletable(actionId.id)
+                .subscribe()
     }
 
     fun onDeleteEventClick(event: Event) {

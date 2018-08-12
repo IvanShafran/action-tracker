@@ -20,7 +20,7 @@ interface ActionDataSource {
 
     fun deleteEvent(eventId: Long)
 
-    fun getAction(actionId: Long): Action
+    fun getAction(actionId: Long): Action?
 
     fun getAllActions(): List<Action>
 }

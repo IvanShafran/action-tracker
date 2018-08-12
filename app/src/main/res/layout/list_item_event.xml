@@ -37,7 +37,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_delete"
+            app:srcCompat="@drawable/ic_delete_black"
             tools:text="Add today" />
     </LinearLayout>
 

@@ -2,8 +2,12 @@ package me.shafran.actiontracker.ui.view.action_detail
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -68,9 +72,35 @@ class ActionDetailFragment : BaseFragment(), ActionDetailView, EventsAdapter.Lis
         adapter.listener = this
 
         createEventButton.setOnClickListener { presenter.onCreateEventClick() }
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.action_detail_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menuActionDelete -> {
+                presenter.onDeleteActionClick()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun showAction(action: Action) = adapter.showEvents(action.events)
+
+    override fun showConfirmDeleteActionDialog() {
+        val dialog = AlertDialog
+                .Builder(getNonNullContextOrThrow())
+                .setPositiveButton(android.R.string.yes) { _, _ -> presenter.onDeleteActionConfirmedClick() }
+                .setNegativeButton(android.R.string.no, null)
+                .setMessage(R.string.action_delete_confirm_dialog_message)
+                .create()
+        dialog.show()
+    }
 
     override fun onDeleteEventClick(event: Event) = presenter.onDeleteEventClick(event)
 }

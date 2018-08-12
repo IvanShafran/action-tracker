@@ -16,39 +16,46 @@ import javax.inject.Inject
 
 class ActionRepository @Inject constructor(
         private val schedulers: RxSchedulers,
-        private val actionDataSource: ActionDataSource
+        private val dataSource: ActionDataSource
 ) {
 
-    private class ChangedEvent(val actionId: Long)
+    private class ActionChanged(val actionId: Long)
 
-    private val actionsChangedSubject: Subject<ChangedEvent> =
-            BehaviorSubject.create<ChangedEvent>().toSerialized()
+    private val actionsChangedSubject: Subject<ActionChanged> =
+            BehaviorSubject.create<ActionChanged>().toSerialized()
 
     init {
         pushActionsChanged(-1) // Push with fake id
     }
 
     private fun pushActionsChanged(actionId: Long) {
-        actionsChangedSubject.onNext(ChangedEvent(actionId))
+        actionsChangedSubject.onNext(ActionChanged(actionId))
     }
 
     fun getInsertActionSingle(data: InsertActionData): Single<ActionId> {
         return Single
-                .fromCallable { actionDataSource.insertAction(data) }
+                .fromCallable { dataSource.insertAction(data) }
                 .subscribeOn(schedulers.io())
                 .doOnSuccess { pushActionsChanged(it.id) }
     }
 
     fun getInsertEventSingle(data: InsertEventData): Single<EventId> {
         return Single
-                .fromCallable { actionDataSource.insertEvent(data) }
+                .fromCallable { dataSource.insertEvent(data) }
                 .subscribeOn(schedulers.io())
                 .doOnSuccess { pushActionsChanged(data.actionId) }
     }
 
     fun getDeleteEventCompletable(actionId: Long, eventId: Long): Completable {
         return Completable
-                .fromAction { actionDataSource.deleteEvent(eventId) }
+                .fromAction { dataSource.deleteEvent(eventId) }
+                .subscribeOn(schedulers.io())
+                .doOnComplete { pushActionsChanged(actionId) }
+    }
+
+    fun getDeleteActionCompletable(actionId: Long): Completable {
+        return Completable
+                .fromAction { dataSource.deleteAction(actionId) }
                 .subscribeOn(schedulers.io())
                 .doOnComplete { pushActionsChanged(actionId) }
     }
@@ -56,15 +63,22 @@ class ActionRepository @Inject constructor(
     fun getAllActionObservable(): Observable<List<Action>> {
         return actionsChangedSubject
                 .observeOn(schedulers.io())
-                .map { actionDataSource.getAllActions() }
+                .map { dataSource.getAllActions() }
     }
 
-    fun getActionObservable(actionId: Long): Observable<Action> {
+    fun getActionObservable(actionId: Long): Observable<ActionData> {
         var isFirstEvent = true
         return actionsChangedSubject
                 .filter { it.actionId == actionId || isFirstEvent }
                 .doOnNext { isFirstEvent = true }
                 .observeOn(schedulers.io())
-                .map { actionDataSource.getAction(actionId) }
+                .map {
+                    val action = dataSource.getAction(actionId)
+                    if (action == null) {
+                        ActionDeletedData(actionId)
+                    } else {
+                        ActionExistData(action)
+                    }
+                }
     }
 }
