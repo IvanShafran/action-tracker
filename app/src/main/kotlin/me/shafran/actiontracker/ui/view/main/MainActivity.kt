@@ -44,4 +44,6 @@ class MainActivity : BaseActivity() {
         super.onPause()
         navigatorHolder.removeNavigator()
     }
+
+    override fun onBackPressed() = router.exit()
 }

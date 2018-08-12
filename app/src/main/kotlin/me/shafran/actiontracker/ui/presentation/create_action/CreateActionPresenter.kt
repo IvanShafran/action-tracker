@@ -20,7 +20,7 @@ class CreateActionPresenter @Inject constructor(
         if (actionName.isNotEmpty() && !isInProgress) {
             isInProgress = true
             repository
-                    .insertAction(InsertActionData(actionName, ActionType.COUNTABLE))
+                    .getInsertActionSingle(InsertActionData(actionName, ActionType.COUNTABLE))
                     .observeOn(rxSchedulers.ui())
                     .subscribe { _ ->
                         viewState.exit()

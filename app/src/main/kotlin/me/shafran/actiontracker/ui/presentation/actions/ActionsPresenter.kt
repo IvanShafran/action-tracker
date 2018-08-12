@@ -31,12 +31,11 @@ class ActionsPresenter @Inject constructor(
         router.navigateTo(Screens.CREATE_ACTION)
     }
 
-    fun onOpenActionClick(action: Action) {
-    }
+    fun onOpenActionClick(action: Action) = router.navigateTo(Screens.ACTION_DETAIL, action.id)
 
     fun onCreateEventClick(action: Action) {
         actionRepository
-                .insertEvent(InsertEventData(action.id, 1, Calendar.getInstance()))
+                .getInsertEventSingle(InsertEventData(action.id, 1, Calendar.getInstance()))
                 .subscribe()
     }
 }

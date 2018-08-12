@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import me.shafran.actiontracker.ui.view.action_detail.ActionDetailFragment
 import me.shafran.actiontracker.ui.view.actions.ActionsFragment
 import me.shafran.actiontracker.ui.view.create_action.CreateActionDialogFragment
 import me.shafran.actiontracker.ui.view.create_event.CreateEventDialogFragment
@@ -50,6 +51,10 @@ class AppNavigator(
     override fun createFragment(screenKey: String, data: Any?): Fragment? {
         return when (screenKey) {
             Screens.ACTIONS -> ActionsFragment.newInstance()
+            Screens.ACTION_DETAIL -> {
+                val actionId = data as Long
+                ActionDetailFragment.newInstance(actionId)
+            }
             else -> null
         }
     }
