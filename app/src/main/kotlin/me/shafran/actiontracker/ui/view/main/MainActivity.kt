@@ -1,22 +1,17 @@
 package me.shafran.actiontracker.ui.view.main
 
 import android.os.Bundle
-import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import me.shafran.actiontracker.R
 import me.shafran.actiontracker.di.Scopes
 import me.shafran.actiontracker.navigation.AppNavigator
-import me.shafran.actiontracker.ui.presentation.main.MainPresenter
-import me.shafran.actiontracker.ui.presentation.main.MainView
-import me.shafran.actiontracker.ui.view.actions.ActionsFragment
+import me.shafran.actiontracker.navigation.Screens
 import me.shafran.actiontracker.ui.view.base.BaseActivity
 import ru.terrakok.cicerone.NavigatorHolder
+import ru.terrakok.cicerone.Router
 import toothpick.Toothpick
 
-class MainActivity : BaseActivity(), MainView {
-
-    @InjectPresenter
-    lateinit var mainPresenter: MainPresenter
+class MainActivity : BaseActivity() {
 
     private val navigatorHolder by lazy {
         Toothpick
