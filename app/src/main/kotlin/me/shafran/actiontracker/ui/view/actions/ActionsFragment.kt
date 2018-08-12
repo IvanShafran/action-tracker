@@ -1,6 +1,7 @@
 package me.shafran.actiontracker.ui.view.actions
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,10 @@ import me.shafran.actiontracker.ui.view.base.BaseFragment
 import toothpick.Toothpick
 
 class ActionsFragment : BaseFragment(), ActionsView, ActionsAdapter.Listener {
+
+    companion object {
+        fun newInstance(): Fragment = ActionsFragment()
+    }
 
     private val actionsAdapter: ActionsAdapter by lazy { ActionsAdapter() }
 

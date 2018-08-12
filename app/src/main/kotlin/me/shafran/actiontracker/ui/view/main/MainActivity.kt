@@ -19,15 +19,20 @@ class MainActivity : BaseActivity() {
                 .getInstance(NavigatorHolder::class.java)
     }
 
+    private val router by lazy {
+        Toothpick
+                .openScope(Scopes.ROOT_SCOPE)
+                .getInstance(Router::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.main_content, ActionsFragment())
-                .commit()
+        if (savedInstanceState == null) {
+            router.navigateTo(Screens.ACTIONS)
+        }
     }
 
     override fun onResumeFragments() {
