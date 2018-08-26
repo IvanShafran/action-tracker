@@ -48,7 +48,7 @@ class ActionDetailFragment : BaseFragment(), ActionDetailView, EventsAdapter.Lis
                 .openScope(Scopes.ROOT_SCOPE)
                 .getInstance(ActionDetailPresenter::class.java)
 
-        val actionId = getNonNullArgumentsOrThrow().getLong(ACTION_ID_KEY)
+        val actionId = requireArguments().getLong(ACTION_ID_KEY)
         presenter.actionId = ActionId(actionId)
 
         return presenter
@@ -94,7 +94,7 @@ class ActionDetailFragment : BaseFragment(), ActionDetailView, EventsAdapter.Lis
 
     override fun showConfirmDeleteActionDialog() {
         val dialog = AlertDialog
-                .Builder(getNonNullContextOrThrow())
+                .Builder(requireContext())
                 .setPositiveButton(android.R.string.yes) { _, _ -> presenter.onDeleteActionConfirmedClick() }
                 .setNegativeButton(android.R.string.no, null)
                 .setMessage(R.string.action_delete_confirm_dialog_message)

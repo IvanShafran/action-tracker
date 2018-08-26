@@ -39,7 +39,7 @@ class CreateEventDialogFragment : BaseBottomSheetDialogFragment(), CreateEventVi
                 .openScope(Scopes.ROOT_SCOPE)
                 .getInstance(CreateEventPresenter::class.java)
 
-        val actionId = getNonNullArgumentsOrThrow().getLong(ACTION_ID_KEY)
+        val actionId = requireArguments().getLong(ACTION_ID_KEY)
         presenter.actionId = ActionId(actionId)
 
         return presenter

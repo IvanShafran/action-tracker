@@ -18,7 +18,7 @@ abstract class BaseBottomSheetDialogFragment : BaseDialogFragment() {
     }
 
     private fun createView(): View {
-        val view = getNonNullActivityOrThrow()
+        val view = requireActivity()
                 .layoutInflater
                 .inflate(layoutRes, null)
 
@@ -31,7 +31,7 @@ abstract class BaseBottomSheetDialogFragment : BaseDialogFragment() {
         isCancelable = false
 
         val bottomSheetDialog = BottomSheetDialog(
-                getNonNullContextOrThrow(),
+                requireContext(),
                 theme
         )
         bottomSheetDialog.setContentView(view)
