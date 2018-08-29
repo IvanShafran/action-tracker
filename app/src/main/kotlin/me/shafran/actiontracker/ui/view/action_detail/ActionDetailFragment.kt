@@ -110,6 +110,10 @@ class ActionDetailFragment : BaseFragment(), ActionDetailView, EventsAdapter.Lis
         calendarView.addEvents(calendarEvents)
     }
 
+    override fun showTitle(title: String) {
+        requireActivity().title = title
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.action_detail_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)

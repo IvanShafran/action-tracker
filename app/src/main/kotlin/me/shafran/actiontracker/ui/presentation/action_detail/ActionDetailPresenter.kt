@@ -28,6 +28,8 @@ class ActionDetailPresenter @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
+    private val titleBuilder = ActionDetailTitleBuilder()
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
@@ -44,7 +46,11 @@ class ActionDetailPresenter @Inject constructor(
                         is ActionDeletedData -> {
                             // Do nothing. Handle on loadFilteredEvents
                         }
-                        is ActionExistData -> viewState.showEventsOnCalendar(actionData.action.events)
+                        is ActionExistData -> {
+                            titleBuilder.actionName = actionData.action.name
+                            showTitleIfReady()
+                            viewState.showEventsOnCalendar(actionData.action.events)
+                        }
                     }
                 }
                 .addToCompositeDisposable(compositeDisposable)
@@ -65,6 +71,15 @@ class ActionDetailPresenter @Inject constructor(
 
     fun onDayChanged(date: Calendar) {
         actionDetailInteractor.setFilterDate(date)
+
+        titleBuilder.date = date
+        showTitleIfReady()
+    }
+
+    private fun showTitleIfReady() {
+        if (titleBuilder.isReadyToShow()) {
+            viewState.showTitle(titleBuilder.getTitle())
+        }
     }
 
     fun onDeleteActionClick() {

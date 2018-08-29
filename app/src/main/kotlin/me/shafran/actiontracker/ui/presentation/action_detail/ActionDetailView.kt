@@ -16,4 +16,7 @@ interface ActionDetailView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showConfirmDeleteActionDialog()
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun showTitle(title: String)
 }
