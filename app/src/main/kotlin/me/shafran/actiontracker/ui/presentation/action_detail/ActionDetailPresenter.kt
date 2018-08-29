@@ -2,14 +2,16 @@ package me.shafran.actiontracker.ui.presentation.action_detail
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import me.shafran.actiontracker.data.entity.Event
 import me.shafran.actiontracker.data.repository.ActionDeletedData
 import me.shafran.actiontracker.data.repository.ActionExistData
 import me.shafran.actiontracker.data.repository.ActionRepository
 import me.shafran.actiontracker.data.repository.datasource.ActionId
 import me.shafran.actiontracker.data.repository.datasource.InsertEventData
+import me.shafran.actiontracker.domain.ActionDetailInteractor
 import me.shafran.actiontracker.rx.RxSchedulers
+import me.shafran.actiontracker.rx.addToCompositeDisposable
 import ru.terrakok.cicerone.Router
 import java.util.Calendar
 import javax.inject.Inject
@@ -17,27 +19,52 @@ import javax.inject.Inject
 @InjectViewState
 class ActionDetailPresenter @Inject constructor(
         private val router: Router,
+        private val actionDetailInteractor: ActionDetailInteractor,
         private val actionRepository: ActionRepository,
         private val schedulers: RxSchedulers
 ) : MvpPresenter<ActionDetailView>() {
 
     lateinit var actionId: ActionId
 
-    private var disposable: Disposable? = null
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        disposable = actionRepository
-                .getActionObservable(actionId.id)
+
+        loadAllActionEvents()
+        loadFilteredEvents()
+    }
+
+    private fun loadAllActionEvents() {
+        actionRepository
+                .getActionSingle(actionId.id)
                 .observeOn(schedulers.ui())
-                .subscribe {
-                    when (it) {
+                .subscribe { actionData ->
+                    when (actionData) {
                         is ActionDeletedData -> {
-                            router.exit()
+                            // Do nothing. Handle on loadFilteredEvents
                         }
-                        is ActionExistData -> viewState.showAction(it.action)
+                        is ActionExistData -> viewState.showEventsOnCalendar(actionData.action.events)
                     }
                 }
+                .addToCompositeDisposable(compositeDisposable)
+    }
+
+    private fun loadFilteredEvents() {
+        actionDetailInteractor
+                .getFilteredActionObservable(actionId.id)
+                .observeOn(schedulers.ui())
+                .subscribe { actionData ->
+                    when (actionData) {
+                        is ActionDeletedData -> router.exit()
+                        is ActionExistData -> viewState.showDayEvents(actionData.action.events)
+                    }
+                }
+                .addToCompositeDisposable(compositeDisposable)
+    }
+
+    fun onDayChanged(date: Calendar) {
+        actionDetailInteractor.setFilterDate(date)
     }
 
     fun onDeleteActionClick() {
@@ -64,6 +91,6 @@ class ActionDetailPresenter @Inject constructor(
 
     override fun onDestroy() {
         super.onDestroy()
-        disposable?.dispose()
+        compositeDisposable.dispose()
     }
 }

@@ -2,6 +2,7 @@ package me.shafran.actiontracker.ui.view.action_detail
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -12,9 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import kotlinx.android.synthetic.main.fragment_action_detail.*
 import me.shafran.actiontracker.R
-import me.shafran.actiontracker.data.entity.Action
 import me.shafran.actiontracker.data.entity.Event
 import me.shafran.actiontracker.data.repository.datasource.ActionId
 import me.shafran.actiontracker.di.Scopes
@@ -22,6 +23,10 @@ import me.shafran.actiontracker.ui.presentation.action_detail.ActionDetailPresen
 import me.shafran.actiontracker.ui.presentation.action_detail.ActionDetailView
 import me.shafran.actiontracker.ui.view.base.BaseFragment
 import toothpick.Toothpick
+import java.util.Calendar
+import java.util.Date
+
+typealias CalendarEvent = com.github.sundeepk.compactcalendarview.domain.Event
 
 class ActionDetailFragment : BaseFragment(), ActionDetailView, EventsAdapter.Listener {
 
@@ -63,6 +68,31 @@ class ActionDetailFragment : BaseFragment(), ActionDetailView, EventsAdapter.Lis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setHasOptionsMenu(true)
+
+        setupRecyclerView()
+
+        createEventButton.setOnClickListener { presenter.onCreateEventClick() }
+
+        setupCalendarView()
+    }
+
+    private fun setupCalendarView() {
+        calendarView.setListener(object : CompactCalendarView.CompactCalendarViewListener {
+            override fun onDayClick(dateClicked: Date) = onDayChanged(dateClicked)
+
+            override fun onMonthScroll(firstDayOfNewMonth: Date) = onDayChanged(firstDayOfNewMonth)
+        })
+        onDayChanged(Date())
+    }
+
+    private fun onDayChanged(date: Date) {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        presenter.onDayChanged(calendar)
+    }
+
+    private fun setupRecyclerView() {
         eventsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
@@ -70,9 +100,14 @@ class ActionDetailFragment : BaseFragment(), ActionDetailView, EventsAdapter.Lis
         }
 
         adapter.listener = this
+    }
 
-        createEventButton.setOnClickListener { presenter.onCreateEventClick() }
-        setHasOptionsMenu(true)
+    override fun showEventsOnCalendar(events: List<Event>) {
+        val color: Int = ContextCompat.getColor(requireContext(), R.color.secondaryDarkColor)
+        val calendarEvents: List<CalendarEvent> = events.map {
+            CalendarEvent(color, it.trackedDate.timeInMillis)
+        }
+        calendarView.addEvents(calendarEvents)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -90,7 +125,7 @@ class ActionDetailFragment : BaseFragment(), ActionDetailView, EventsAdapter.Lis
         }
     }
 
-    override fun showAction(action: Action) = adapter.showEvents(action.events)
+    override fun showDayEvents(events: List<Event>) = adapter.showEvents(events)
 
     override fun showConfirmDeleteActionDialog() {
         val dialog = AlertDialog

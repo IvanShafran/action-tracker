@@ -9,6 +9,9 @@
         android:id="@+id/eventsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/fragment_action_detail_calendar_height"
+        android:clipToPadding="false"
+        android:paddingBottom="88dp"
         tools:listitem="@layout/list_item_event" />
 
     <android.support.design.widget.FloatingActionButton
@@ -23,5 +26,18 @@
         app:layout_anchor="@id/eventsRecyclerView"
         app:layout_anchorGravity="bottom|end|right"
         app:srcCompat="@drawable/ic_event_white" />
+
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fragment_action_detail_calendar_height"
+        app:compactCalendarBackgroundColor="@color/secondaryLightColor"
+        app:compactCalendarCurrentDayBackgroundColor="@color/secondaryDarkColor"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/secondaryColor"
+        app:compactCalendarEventIndicatorStyle="no_fill_large_indicator"
+        app:compactCalendarMultiEventIndicatorColor="#fff"
+        app:compactCalendarTargetHeight="@dimen/fragment_action_detail_calendar_height"
+        app:compactCalendarTextColor="#fff"
+        app:compactCalendarTextSize="12sp" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -72,13 +72,20 @@ class ActionRepository @Inject constructor(
                 .filter { it.actionId == actionId || isFirstEvent }
                 .doOnNext { isFirstEvent = true }
                 .observeOn(schedulers.io())
-                .map {
-                    val action = dataSource.getAction(actionId)
-                    if (action == null) {
-                        ActionDeletedData(actionId)
-                    } else {
-                        ActionExistData(action)
-                    }
-                }
+                .map { getActionData(actionId) }
+    }
+
+    fun getActionSingle(actionId: Long): Single<ActionData> {
+        return Single
+                .fromCallable { getActionData(actionId) }
+    }
+
+    private fun getActionData(actionId: Long): ActionData {
+        val action = dataSource.getAction(actionId)
+        return if (action == null) {
+            ActionDeletedData(actionId)
+        } else {
+            ActionExistData(action)
+        }
     }
 }
