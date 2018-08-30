@@ -32,15 +32,6 @@ android {
         resConfig 'en'
     }
 
-    signingConfigs {
-        release {
-            keyAlias releaseSignKeyAlias
-            keyPassword releaseSignKeyPassword
-            storeFile file(releaseStoreFilePath)
-            storePassword releaseStorePassword
-        }
-    }
-
     buildTypes {
 
         debug {
