@@ -11,6 +11,8 @@ apply plugin: 'de.mannodermaus.android-junit5'
 
 apply from: 'action-tracker-signing.gradle'
 
+apply plugin: 'jacoco-android'
+
 android {
     defaultConfig {
         applicationId "me.shafran.actiontracker"
