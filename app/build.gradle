@@ -88,8 +88,8 @@ dependencies {
     kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
     implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
 
-    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
-    implementation "io.reactivex.rxjava2:rxjava:2.1.4"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.1"
 
     implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
 
@@ -123,10 +123,10 @@ dependencies {
 
 // Mocking
 dependencies {
-    testImplementation 'org.mockito:mockito-core:2.10.0'
+    testImplementation 'org.mockito:mockito-core:2.21.0'
 }
 
 // Robolectric
 dependencies {
-    testImplementation "org.robolectric:robolectric:3.6.1"
+    testImplementation "org.robolectric:robolectric:3.8"
 }
