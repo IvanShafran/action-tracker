@@ -15,9 +15,9 @@ android {
     defaultConfig {
         applicationId "me.shafran.actiontracker"
         minSdkVersion 21
-        compileSdkVersion 27
-        targetSdkVersion 27
-        buildToolsVersion "27.0.3"
+        compileSdkVersion 28
+        targetSdkVersion 28
+        buildToolsVersion "28.0.2"
         versionCode 2
         versionName "0.2"
 
