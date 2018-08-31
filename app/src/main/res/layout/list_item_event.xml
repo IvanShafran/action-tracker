@@ -27,6 +27,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:maxLines="1"
+            android:textIsSelectable="true"
             android:textSize="18sp"
             tools:text="@string/lorem_ipsum_short" />
 
