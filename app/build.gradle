@@ -67,7 +67,17 @@ android {
             }
 
             jacocoOptions {
-                excludedClasses += []
+                excludedClasses += [
+                        // Moxy
+                        'com/arellomobile/mvp/*',
+                        '**/*$$State*',
+                        '**/*$$PresentersBinder*',
+                        '**/*$$ViewStateProvider*',
+                        // Toothpick
+                        '**/*$$Factory.class',
+                        '**/MemberInjectorRegistry.class',
+                        '**/FactoryRegistry.class'
+                ]
                 taskGenerationEnabled = true
                 onlyGenerateTasksForVariants "debug"
                 xml.enabled true
