@@ -119,8 +119,6 @@ dependencies {
     testImplementation "org.junit.platform:junit-platform-engine:${junit5junitPlatformVersion}"
 
     testImplementation junit5.unitTests()
-    // For running tests inside Android Studio 3.x
-    testCompileOnly junit5.unitTestsRuntime()
 }
 
 // Mocking
