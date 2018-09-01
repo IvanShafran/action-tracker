@@ -10,10 +10,10 @@ android:
     - android-28
 
 script: 
-  — ./gradlew build jacocoTestReport
+  - ./gradlew build jacocoTestReport
 
 after_success: 
-  — bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
 
 before_install:
   - chmod +x gradlew
