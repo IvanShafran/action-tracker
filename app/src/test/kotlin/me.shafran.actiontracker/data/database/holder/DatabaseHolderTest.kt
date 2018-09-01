@@ -1,25 +1,34 @@
 package me.shafran.actiontracker.data.database.holder
 
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import me.shafran.actiontracker.assertFailsWith
-import me.shafran.actiontracker.data.database.ActionTrackerDbHelper
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert.assertEquals
-import org.mockito.Mockito
-import org.mockito.Mockito.times
 
 object DatabaseHolderTest : Spek({
 
+    var databaseHelper: SQLiteOpenHelper = mock()
+    var databaseMock: SQLiteDatabase = mock()
+    var holder: DatabaseHolder = mock()
+
+    fun prepareMocks() {
+        databaseHelper = mock()
+        databaseMock = mock()
+        whenever(databaseHelper.writableDatabase).thenReturn(databaseMock)
+        holder = DatabaseHolderImpl(databaseHelper)
+    }
+
     describe("database holder") {
         on("first open call") {
-            val databaseHelper = Mockito.mock(ActionTrackerDbHelper::class.java)
-            val databaseMock = Mockito.mock(SQLiteDatabase::class.java)
-            Mockito.`when`(databaseHelper.writableDatabase).thenReturn(databaseMock)
-
-            val holder = DatabaseHolderImpl(databaseHelper)
+            prepareMocks()
 
             val database = holder.openDatabase()
 
@@ -28,48 +37,38 @@ object DatabaseHolderTest : Spek({
             }
 
             it("should open database internally") {
-                Mockito.verify(databaseHelper).writableDatabase
+                verify(databaseHelper).writableDatabase
             }
         }
 
-        on("several open calls") {
-            val databaseHelper = Mockito.mock(ActionTrackerDbHelper::class.java)
-            val databaseMock = Mockito.mock(SQLiteDatabase::class.java)
-            Mockito.`when`(databaseHelper.writableDatabase).thenReturn(databaseMock)
-            val holder = DatabaseHolderImpl(databaseHelper)
+        on("two open calls in a row") {
+            prepareMocks()
 
-            holder.openDatabase()
             holder.openDatabase()
             holder.openDatabase()
 
             it("should open database internally only once") {
-                Mockito.verify(databaseHelper).writableDatabase
+                verify(databaseHelper).writableDatabase
             }
         }
 
         on("open and then close calls") {
-            val databaseHelper = Mockito.mock(ActionTrackerDbHelper::class.java)
-            val databaseMock = Mockito.mock(SQLiteDatabase::class.java)
-            Mockito.`when`(databaseHelper.writableDatabase).thenReturn(databaseMock)
-            val holder = DatabaseHolderImpl(databaseHelper)
+            prepareMocks()
 
             holder.openDatabase()
             holder.closeDatabase()
 
             it("should open database internally") {
-                Mockito.verify(databaseHelper).writableDatabase
+                verify(databaseHelper).writableDatabase
             }
 
             it("should close database internally") {
-                Mockito.verify(databaseMock).close()
+                verify(databaseMock).close()
             }
         }
 
         on("open, open, close, close calls") {
-            val databaseHelper = Mockito.mock(ActionTrackerDbHelper::class.java)
-            val databaseMock = Mockito.mock(SQLiteDatabase::class.java)
-            Mockito.`when`(databaseHelper.writableDatabase).thenReturn(databaseMock)
-            val holder = DatabaseHolderImpl(databaseHelper)
+            prepareMocks()
 
             holder.openDatabase()
             holder.openDatabase()
@@ -77,19 +76,16 @@ object DatabaseHolderTest : Spek({
             holder.closeDatabase()
 
             it("should open database internally once") {
-                Mockito.verify(databaseHelper).writableDatabase
+                verify(databaseHelper).writableDatabase
             }
 
             it("should close database internally once") {
-                Mockito.verify(databaseMock).close()
+                verify(databaseMock).close()
             }
         }
 
         on("open, close, open, close calls") {
-            val databaseHelper = Mockito.mock(ActionTrackerDbHelper::class.java)
-            val databaseMock = Mockito.mock(SQLiteDatabase::class.java)
-            Mockito.`when`(databaseHelper.writableDatabase).thenReturn(databaseMock)
-            val holder = DatabaseHolderImpl(databaseHelper)
+            prepareMocks()
 
             holder.openDatabase()
             holder.closeDatabase()
@@ -97,19 +93,16 @@ object DatabaseHolderTest : Spek({
             holder.closeDatabase()
 
             it("should open database internally twice") {
-                Mockito.verify(databaseHelper, times(2)).writableDatabase
+                verify(databaseHelper, times(2)).writableDatabase
             }
 
             it("should close database internally twice") {
-                Mockito.verify(databaseMock, times(2)).close()
+                verify(databaseMock, times(2)).close()
             }
         }
 
         on("close without open") {
-            val databaseHelper = Mockito.mock(ActionTrackerDbHelper::class.java)
-            val databaseMock = Mockito.mock(SQLiteDatabase::class.java)
-            Mockito.`when`(databaseHelper.writableDatabase).thenReturn(databaseMock)
-            val holder = DatabaseHolderImpl(databaseHelper)
+            prepareMocks()
 
             it("should throw illegal state exception") {
                 assertFailsWith<IllegalStateException> {
