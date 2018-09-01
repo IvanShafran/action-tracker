@@ -11,7 +11,7 @@ apply plugin: 'de.mannodermaus.android-junit5'
 
 apply from: 'action-tracker-signing.gradle'
 
-apply plugin: 'jacoco-android'
+apply plugin: 'jacoco'
 
 android {
     defaultConfig {
@@ -64,6 +64,15 @@ android {
                     include 'spek'
                     include 'junit-vintage'
                 }
+            }
+
+            jacocoOptions {
+                excludedClasses += []
+                taskGenerationEnabled = true
+                onlyGenerateTasksForVariants "debug"
+                xml.enabled true
+                html.enabled true
+                csv.enabled true
             }
         }
     }
