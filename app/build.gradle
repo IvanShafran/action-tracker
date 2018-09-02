@@ -13,6 +13,8 @@ apply from: 'action-tracker-signing.gradle'
 
 apply plugin: 'jacoco'
 
+jacoco.toolVersion "0.8.2"
+
 android {
     defaultConfig {
         applicationId "me.shafran.actiontracker"
