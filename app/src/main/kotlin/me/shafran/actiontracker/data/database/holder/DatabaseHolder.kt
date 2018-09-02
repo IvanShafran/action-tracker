@@ -9,7 +9,7 @@ interface DatabaseHolder {
     fun closeDatabase()
 }
 
-inline fun <T> DatabaseHolder.withDatabase(action: (database: SQLiteDatabase) -> T): T {
+fun <T> DatabaseHolder.withDatabase(action: (database: SQLiteDatabase) -> T): T {
     val database = openDatabase()
     try {
         return action(database)
