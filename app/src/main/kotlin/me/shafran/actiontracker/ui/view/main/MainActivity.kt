@@ -5,7 +5,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import me.shafran.actiontracker.R
 import me.shafran.actiontracker.di.Scopes
 import me.shafran.actiontracker.navigation.AppNavigator
-import me.shafran.actiontracker.navigation.Screens
+import me.shafran.actiontracker.ui.view.actions.ActionsFragment
 import me.shafran.actiontracker.ui.view.base.BaseActivity
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -31,7 +31,9 @@ class MainActivity : BaseActivity() {
         setSupportActionBar(toolbar)
 
         if (savedInstanceState == null) {
-            router.navigateTo(Screens.ACTIONS)
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.main_content, ActionsFragment.newInstance())
+                    .commit()
         }
     }
 
