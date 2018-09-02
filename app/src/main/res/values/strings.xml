@@ -6,4 +6,5 @@
     <string name="create_action_hint">Action name</string>
     <string name="action_delete_menu">Delete action</string>
     <string name="action_delete_confirm_dialog_message">Are you sure you want to delete this action?</string>
+    <string name="actions_fragment_title">Actions</string>
 </resources>

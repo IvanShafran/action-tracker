@@ -51,6 +51,8 @@ class ActionsFragment : BaseFragment(), ActionsView, ActionsAdapter.Listener {
         actionsAdapter.listener = this
 
         createActionButton.setOnClickListener { actionsPresenter.onCreateActionClick() }
+
+        requireActivity().setTitle(R.string.actions_fragment_title)
     }
 
     override fun onCreateEventClick(action: Action) {
